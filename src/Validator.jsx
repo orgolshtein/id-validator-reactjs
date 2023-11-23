@@ -1,19 +1,6 @@
 import { useEffect } from "react";
 import { styled } from "styled-components";
 
-const H2 = styled.h2`
-    color: ${(props) => props.textcolor};
-`;
-
-const H3 = styled.h3`
-    color: ${(props) => props.textcolor};
-`;
-
-const blue = "Blue";
-const red = "Red";
-const green = "Green";
-const yellow = "Yellow";
-
 export default function Validator({input, output, setOutput}){
     let sum = 0;
     let counter = 0;
@@ -55,4 +42,18 @@ export default function Validator({input, output, setOutput}){
             )}
         </div>
     );
-}
+};
+
+const blue = "Blue";
+const red = "Red";
+const green = "Green";
+const yellow = "Yellow";
+
+const H2 = styled.h2`
+    color: ${(props) => props.textcolor};
+`;
+
+const H3 = styled.h3`
+    color: ${(props) => props.textcolor};
+`;
+
