@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { styled } from "styled-components";
+
 import IDinput from './IDinput.jsx'
 import Validator from './Validator.jsx';
-import { styled } from "styled-components";
 import './App.css'
 
 export default function App() {
