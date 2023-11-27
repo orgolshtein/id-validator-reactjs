@@ -1,16 +1,15 @@
 import { useState } from 'react'
-import { styled } from "styled-components";
 
 import IDinput from './IDinput.jsx'
 import Validator from './Validator.jsx';
-import './App.css'
+import { styled } from "styled-components";
 
 export default function App() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState(0);
 
   return (
-    <div>
+    <AppDiv>
       <h1>אימות מספר זהות</h1>
       <div>
         <IDinput input={input} setInput={setInput}/>
@@ -18,7 +17,7 @@ export default function App() {
       <div>
         <Validator input={input} output={output} setOutput={setOutput}/>
       </div>
-    </div>
+    </AppDiv>
   )
 }
 
@@ -28,4 +27,13 @@ const AppDiv = styled.div`
   padding: 2rem;
   text-align: center;
   direction: rtl;  
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 100vh;
+
+  h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+  }
 `
