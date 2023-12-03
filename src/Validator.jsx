@@ -45,7 +45,7 @@ export default function Validator({input, output, setOutput}){
 };
 
 const ValidatorDiv = styled.div`
-  min-height: 100px;  
+  min-height: 150px;  
 `;
 
 const H2 = styled.h2`
