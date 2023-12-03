@@ -33,7 +33,7 @@ export default function Validator({input, output, setOutput}){
             : input.length === 9 && (output+sum) % 10 !== 0 ?
             (<H2 textcolor={red}>מספר הזהות {zeroPad(input,9)} לא תקין</H2>)
             : input.length === 0 ?
-            (<H3 textcolor={yellow}>הקלד ספרות כדי לקבל את ספרת הביקורת</H3>)
+            (<H3 textcolor={yellow}>הקלד/י עד 8 ספרות כדי לקבל את ספרת הביקורת<br />או הקלד/י 9 ספרות כדי לאמת את מספר הזהות המלא</H3>)
             : (
             <>
             <H3 textcolor={yellow}>ספרת הביקורת עבור {zeroPad(input,8)} היא</H3>
