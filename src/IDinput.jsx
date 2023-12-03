@@ -8,7 +8,7 @@ export default function IDinput({ input, setInput }){
             <input
               type="text"
               value={input}
-              placeholder="הקלד מספר"
+              placeholder="הקלד/י מספר"
               maxLength={9}
               onChange={update_input}
             />
