@@ -10,13 +10,10 @@ export default function App() {
 
   return (
     <AppDiv>
-      <h1>אימות מספר זהות</h1>
-      <div>
-        <IDinput input={input} setInput={setInput}/>
-      </div>
-      <div>
-        <Validator input={input} output={output} setOutput={setOutput}/>
-      </div>
+      <Heading>אימות מספר זהות</Heading>
+      <IDinput input={input} setInput={setInput}/>
+      <Validator input={input} output={output} setOutput={setOutput}/>
+      <Credit>נבנה על ידי אור גולשטיין: <a href="https://github.com/orgolshtein" target="_blank">github.com/orgolshtein</a></Credit>
     </AppDiv>
   )
 }
@@ -31,9 +28,16 @@ const AppDiv = styled.div`
   flex-direction: column;
   min-width: 320px;
   min-height: 100vh;
+`;
 
-  h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-  }
-`
+const Heading = styled.h1`
+  font-size: 3.2em;
+  line-height: 1.1;
+`;
+
+const Credit = styled.div`
+  font-size: 90%;
+    a{
+      color: #ffffff;
+    }  
+`;
