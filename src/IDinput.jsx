@@ -1,4 +1,4 @@
-export default function IDinput({ input, setInput }){
+export default function IDinput({ heb, input, setInput }){
     const update_input = (event) => {
         setInput(event.target.value);
       };
@@ -8,7 +8,7 @@ export default function IDinput({ input, setInput }){
             <input
               type="text"
               value={input}
-              placeholder="הקלד/י מספר"
+              placeholder={heb? "הקלד/י מספר" : "Type digits"}
               maxLength={9}
               onChange={update_input}
             />
