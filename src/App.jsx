@@ -26,7 +26,7 @@ export default function App() {
         <title>{`${heb ? "אימות מספר זהות" : "Israeli ID Validator"}`}</title>
     </Helmet>
     <AppDiv $heb={heb}>
-        <LangSelector id="lang-selector" name="lang-selector" onClick={langSet}>
+        <LangSelector id="lang-selector" name="lang-selector" onChange={langSet}>
             <option value="hebrew">עברית</option>
             <option value="english">English</option>
         </LangSelector>
