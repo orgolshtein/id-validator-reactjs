@@ -30,16 +30,16 @@ export default function Validator({heb, input, output, setOutput}){
             heb ? (
                 <ValidatorDiv>
                     {isNaN(Number(input))=== true ?
-                    (<H3 $textcolor={red}>יש להקליד מספרים בלבד</H3>)
+                    (<H3 $textcolor={error}>יש להקליד מספרים בלבד</H3>)
                     : input.length === 9 && (output+sum) % 10 === 0 ?
-                    (<H2 $textcolor={green}>מספר הזהות {zeroPad(input,9)} תקין</H2>)
+                    (<H2 $textcolor={controlDigitColor}>מספר הזהות {zeroPad(input,9)} תקין</H2>)
                     : input.length === 9 && (output+sum) % 10 !== 0 ?
-                    (<H2 $textcolor={red}>מספר הזהות {zeroPad(input,9)} לא תקין</H2>)
+                    (<H2 $textcolor={error}>מספר הזהות {zeroPad(input,9)} לא תקין</H2>)
                     : input.length === 0 ?
-                    (<H3 $textcolor={yellow}>הקלד/י עד 8 ספרות כדי לקבל את ספרת הביקורת<br />או הקלד/י 9 ספרות כדי לאמת את מספר הזהות המלא</H3>)
+                    (<H3 $textcolor={mainColor}>הקלד/י עד 8 ספרות כדי לקבל את ספרת הביקורת<br />או הקלד/י 9 ספרות כדי לאמת את מספר הזהות המלא</H3>)
                     : (
                     <>
-                    <H3 $textcolor={yellow}>ספרת הביקורת עבור {zeroPad(input,8)} היא</H3>
+                    <H3 $textcolor={mainColor}>ספרת הביקורת עבור {zeroPad(input,8)} היא</H3>
                     <H2 $textcolor={blue}>{output}</H2>
                     </>
                     )}
@@ -47,16 +47,16 @@ export default function Validator({heb, input, output, setOutput}){
             ) : (
                 <ValidatorDiv>
                     {isNaN(Number(input))=== true ?
-                    (<H3 $textcolor={red}>Only digits please</H3>)
+                    (<H3 $textcolor={error}>Only digits please</H3>)
                     : input.length === 9 && (output+sum) % 10 === 0 ?
-                    (<H2 $textcolor={green}>ID {zeroPad(input,9)} is valid</H2>)
+                    (<H2 $textcolor={controlDigitColor}>ID {zeroPad(input,9)} is valid</H2>)
                     : input.length === 9 && (output+sum) % 10 !== 0 ?
-                    (<H2 $textcolor={red}>ID {zeroPad(input,9)} is invalid</H2>)
+                    (<H2 $textcolor={error}>ID {zeroPad(input,9)} is invalid</H2>)
                     : input.length === 0 ?
-                    (<H3 $textcolor={yellow}>Type up to 8 digits to receive the control digit<br />or type 9 digits to validate the full ID</H3>)
+                    (<H3 $textcolor={mainColor}>Type up to 8 digits to receive the control digit<br />or type 9 digits to validate the full ID</H3>)
                     : (
                     <>
-                    <H3 $textcolor={yellow}>The control digit for {zeroPad(input,8)} is</H3>
+                    <H3 $textcolor={mainColor}>The control digit for {zeroPad(input,8)} is</H3>
                     <H2 $textcolor={blue}>{output}</H2>
                     </>
                     )}
@@ -73,13 +73,15 @@ const ValidatorDiv = styled.div`
 
 const H2 = styled.h2`
     color: ${(props) => props.$textcolor};
+    text-shadow: #030d029c 1px 0 3px;
 `;
 
 const H3 = styled.h3`
     color: ${(props) => props.$textcolor};
+    text-shadow: #030d029c 1px 0 3px;
 `;
 
-const blue = "Blue";
-const red = "Red";
-const green = "Green";
-const yellow = "Yellow";
+const blue = "#545be0";
+const error = "#dd7c7c";
+const controlDigitColor = "#33d857";
+const mainColor = "#ffffff";

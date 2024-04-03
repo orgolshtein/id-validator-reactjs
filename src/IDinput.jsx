@@ -1,3 +1,5 @@
+import styled from "styled-components";
+
 export default function IDinput({ heb, input, setInput }){
     const update_input = (event) => {
         setInput(event.target.value);
@@ -5,7 +7,7 @@ export default function IDinput({ heb, input, setInput }){
     
       return (
         <div>
-            <input
+            <Input
               type="text"
               value={input}
               placeholder={heb? "הקלד/י מספר" : "Type digits"}
@@ -14,4 +16,13 @@ export default function IDinput({ heb, input, setInput }){
             />
         </div>
       );
-}
+};
+
+const Input = styled.input`
+  background-color: #6799b1;
+  color: #ffffff;
+
+  &::placeholder{
+    color: #d7d7d7
+  }
+`
