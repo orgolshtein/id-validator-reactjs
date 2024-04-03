@@ -4,6 +4,7 @@ import {Helmet} from "react-helmet";
 import IDinput from './IDinput.jsx'
 import Validator from './Validator.jsx';
 import { styled, keyframes } from "styled-components";
+import reactLogo from "../images/react-logo.png";
 
 export default function App() {
   const [input, setInput] = useState("");
@@ -35,7 +36,7 @@ export default function App() {
       <Validator heb={heb} input={input} output={output} setOutput={setOutput}/>
       <Credit>
         <p>{heb ? "נבנה על ידי אור גולשטיין:" : "Created by Or Golshtein"} <a href="https://github.com/orgolshtein" target="_blank">github.com/orgolshtein</a></p>
-        <p><img src="images/react-logo.png" alt="logo" /></p>
+        <p><img src={reactLogo} alt="logo" /></p>
       </Credit>
     </AppDiv>
     </>
