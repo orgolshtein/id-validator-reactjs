@@ -1,20 +1,34 @@
-import { useEffect, useState } from 'react'
-import {Helmet} from "react-helmet";
-
-import IDinput from './IDinput.jsx'
-import Validator from './Validator.jsx';
+import { useEffect, useRef, useState } from "react"
+import { Helmet } from "react-helmet";
 import { styled, keyframes } from "styled-components";
+
+import IDinput from "./IDinput.jsx"
+import Validator from "./Validator.jsx";
 import reactLogo from "../images/react-logo.png";
 
-export default function App() {
+const App = () => {
+  const [mainTexts, setMainTexts] = useState({
+    title: "אימות מספר זהות",
+    footer: "נבנה על ידי אור גולשטיין:"
+  })
   const [input, setInput] = useState("");
-  const [output, setOutput] = useState(0);
   const [heb, setHeb] = useState(true);
+  const langSelect = useRef(null);
 
   const langSet = () => {
-    document.querySelector("#lang-selector").value === "hebrew" ?
-    setHeb(true) : 
-    setHeb(false)
+    if (langSelect.current.value === "hebrew") {
+      setHeb(true);
+      setMainTexts({
+        title: "אימות מספר זהות",
+        footer: "נבנה על ידי אור גולשטיין:"
+      })
+    } else {
+      setHeb(false)
+      setMainTexts({
+        title: "Israeli ID Validator",
+        footer: "Created by Or Golshtein:"
+      })
+    }
   }
 
   useEffect(()=>{
@@ -24,24 +38,27 @@ export default function App() {
   return (
     <>
     <Helmet>
-        <title>{`${heb ? "אימות מספר זהות | React" : "Israeli ID Validator | React"}`}</title>
+        <title>{`${mainTexts.title} | React`}</title>
     </Helmet>
     <AppDiv $heb={heb}>
-        <LangSelector id="lang-selector" name="lang-selector" onChange={langSet}>
-            <option value="hebrew">עברית</option>
-            <option value="english">English</option>
-        </LangSelector>
-      <Heading>{heb ? "אימות מספר זהות" : "Israeli ID Validator"}</Heading>
+      <LangSelector ref={langSelect} id="lang-selector" name="lang-selector" onChange={langSet}>
+          <option value="hebrew">עברית</option>
+          <option value="english">English</option>
+      </LangSelector>
+      <Heading>{mainTexts.title}</Heading>
       <IDinput heb={heb} input={input} setInput={setInput}/>
-      <Validator heb={heb} input={input} output={output} setOutput={setOutput}/>
+      <Validator heb={heb} input={input}/>
       <Credit>
-        <p>{heb ? "נבנה על ידי אור גולשטיין:" : "Created by Or Golshtein"} <a href="https://github.com/orgolshtein" target="_blank">github.com/orgolshtein</a></p>
+        <p>{mainTexts.footer} <a 
+          href="https://github.com/orgolshtein" 
+          target="_blank">github.com/orgolshtein
+        </a></p>
         <p><img src={reactLogo} alt="logo" /></p>
       </Credit>
     </AppDiv>
     </>
   )
-}
+};
 
 const spin = keyframes`
   from {
@@ -78,12 +95,12 @@ const LangSelector = styled.select`
 const Heading = styled.h1`
   font-size: 3.2em;
   line-height: 1.1;
-  text-shadow: #030d029c 1px 0 3px;
+  text-shadow: #000000 1px 0 3px;
 `;
 
 const Credit = styled.div`
   font-size: 90%;
-  text-shadow: #030d029c 1px 0 3px;
+  text-shadow: #000000 1px 0 3px;
     
     a {
       color: #ffffff;
@@ -94,3 +111,5 @@ const Credit = styled.div`
       animation: ${spin} 5s linear infinite;
     }
 `;
+
+export default App;

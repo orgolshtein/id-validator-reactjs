@@ -1,87 +1,92 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 
-export default function Validator({heb, input, output, setOutput}){
-    let sum = 0;
-    let counter = 0;
-    const zeroPad = (str, places) => str.padStart(places, '0');
+const Validator = ({ heb, input }) => {
+    const [validatorTexts, setValidatorTexts] = useState({
+        ready1: "הקלד/י עד 8 ספרות כדי לקבל את ספרת הביקורת",
+        ready2: "או הקלד/י 9 ספרות כדי לאמת את מספר הזהות המלא"
+    });
+    const [output, setOutput] = useState(0);
+    const controlArray = useRef([1,2,1,2,1,2,1,2,1]);
+    let counter = useRef(0);
+    let sum = useRef(0);
 
     useEffect(()=>{
-    let inputArray = zeroPad(input,8).split("").map(Number);
-    let controlArray = [1,2,1,2,1,2,1,2,1];
-    for (let i=0; i<inputArray.length; i++){
-        if ((inputArray[i]*controlArray[i])>9){
-            sum += (inputArray[i]*controlArray[i]).toString().split("").map(Number).reduce((a, b) => a + b);
-        }else{
-            sum += (inputArray[i]*controlArray[i]);
+        input.padStart(8, "0").split("").map(Number).forEach((digit, i)=>{
+            (digit * controlArray.current[i]) > 9 ?
+            sum = {
+                current: sum["current"] + (digit * controlArray.current[i])
+                .toString().split("").map(Number).reduce((a, b) => a + b)
+            }
+            : sum = {
+                current: sum["current"] + (digit * controlArray.current[i])
+            };
+        })
+        for (counter["current"] = 0; counter["current"] < 10; counter["current"]++){
+            if ((counter["current"] + sum["current"]) % 10 === 0){
+                break;
+            }
         }
-    }
-    for (counter=0; counter<10; counter++){
-        if ((counter+sum) % 10 === 0){
-            break;
-        }
-    }
-    setOutput(counter);
-   },[input])
+        setOutput(counter["current"]);
+        heb ?
+        setValidatorTexts({
+            onlyDigits: "יש להקליד מספרים בלבד",
+            invalid: `מספר הזהות ${input.padStart(9, "0")} לא תקין`,
+            valid: `מספר הזהות ${input.padStart(9, "0")} תקין`,
+            ready1: "הקלד/י עד 8 ספרות כדי לקבל את ספרת הביקורת",
+            ready2: "או הקלד/י 9 ספרות כדי לאמת את מספר הזהות המלא",
+            controlDigit: `ספרת הביקורת עבור ${input.padStart(8, "0")} היא`,
+        }) :
+        setValidatorTexts({
+            onlyDigits: "Only digits please",
+            invalid: `ID ${input.padStart(9, "0")} is invalid`,
+            valid: `ID ${input.padStart(9, "0")} is valid`,
+            ready1: "Type up to 8 digits to receive the control digit",
+            ready2: "or type 9 digits to validate the full ID",
+            controlDigit: `The control digit for ${input.padStart(8, "0")} is`,
+        })
+   },[input, heb])
 
     return (
-        <>
+        <ValidatorDiv>
         {
-            heb ? (
-                <ValidatorDiv>
-                    {isNaN(Number(input))=== true ?
-                    (<H3 $textcolor={error}>יש להקליד מספרים בלבד</H3>)
-                    : input.length === 9 && (output+sum) % 10 === 0 ?
-                    (<H2 $textcolor={controlDigitColor}>מספר הזהות {zeroPad(input,9)} תקין</H2>)
-                    : input.length === 9 && (output+sum) % 10 !== 0 ?
-                    (<H2 $textcolor={error}>מספר הזהות {zeroPad(input,9)} לא תקין</H2>)
-                    : input.length === 0 ?
-                    (<H3 $textcolor={mainColor}>הקלד/י עד 8 ספרות כדי לקבל את ספרת הביקורת<br />או הקלד/י 9 ספרות כדי לאמת את מספר הזהות המלא</H3>)
-                    : (
-                    <>
-                    <H3 $textcolor={mainColor}>ספרת הביקורת עבור {zeroPad(input,8)} היא</H3>
-                    <H2 $textcolor={blue}>{output}</H2>
-                    </>
-                    )}
-                </ValidatorDiv>
-            ) : (
-                <ValidatorDiv>
-                    {isNaN(Number(input))=== true ?
-                    (<H3 $textcolor={error}>Only digits please</H3>)
-                    : input.length === 9 && (output+sum) % 10 === 0 ?
-                    (<H2 $textcolor={controlDigitColor}>ID {zeroPad(input,9)} is valid</H2>)
-                    : input.length === 9 && (output+sum) % 10 !== 0 ?
-                    (<H2 $textcolor={error}>ID {zeroPad(input,9)} is invalid</H2>)
-                    : input.length === 0 ?
-                    (<H3 $textcolor={mainColor}>Type up to 8 digits to receive the control digit<br />or type 9 digits to validate the full ID</H3>)
-                    : (
-                    <>
-                    <H3 $textcolor={mainColor}>The control digit for {zeroPad(input,8)} is</H3>
-                    <H2 $textcolor={blue}>{output}</H2>
-                    </>
-                    )}
-                </ValidatorDiv>
-            )
+            isNaN(Number(input))=== true ?
+            <H3 $textcolor={error}>{validatorTexts.onlyDigits}</H3>
+            : input.length === 9 && (output + sum["current"]) % 10 === 0 ?
+            <H2 $textcolor={valid}>{validatorTexts.valid}</H2>
+            : input.length === 9 && (output + sum["current"]) % 10 !== 0 ?
+            <H2 $textcolor={error}>{validatorTexts.invalid}</H2>
+            : input.length === 0 ?
+            <H3 $textcolor={mainColor}>
+                {validatorTexts.ready1}
+                <br />
+                {validatorTexts.ready2}
+            </H3>
+            : 
+            <>
+                <H3 $textcolor={mainColor}>{validatorTexts.controlDigit}</H3>
+                <H2 $textcolor={valid}>{output}</H2>
+            </>
         }
-        </>
+        </ValidatorDiv>
     );
 };
 
 const ValidatorDiv = styled.div`
-  min-height: 150px;  
+    min-height: 150px;  
+    text-shadow: #000000 1px 0 3px;
 `;
 
 const H2 = styled.h2`
     color: ${(props) => props.$textcolor};
-    text-shadow: #030d029c 1px 0 3px;
 `;
 
 const H3 = styled.h3`
     color: ${(props) => props.$textcolor};
-    text-shadow: #030d029c 1px 0 3px;
 `;
 
-const blue = "#545be0";
-const error = "#dd7c7c";
-const controlDigitColor = "#33d857";
+const error = "#ff7272";
+const valid = "#50d46c";
 const mainColor = "#ffffff";
+
+export default Validator;
