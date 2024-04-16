@@ -29,10 +29,19 @@ const App = () => {
         footer: "Created by Or Golshtein:"
       })
     }
-  }
+  };
+
+  const riseAndShine = async () => {
+    const urls = ["https://histl.onrender.com", "https://redrossent.onrender.com"];
+    urls.forEach(async (url, i)=>{
+        console.log(`Called server ${i+1}`)
+        await fetch(url);
+    })
+  };
 
   useEffect(()=>{
     langSet();
+    riseAndShine();
   }, [])
 
   return (
